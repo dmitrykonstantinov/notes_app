@@ -1,1 +1,1 @@
-Test task for Flutter developer job
+Super basic notes app
