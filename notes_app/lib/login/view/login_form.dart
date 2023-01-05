@@ -50,7 +50,7 @@ class _PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_password'),
-          onChanged: (password) => context.bloc<LoginBloc>().add(PasswordChanged(password)),
+          onChanged: (password) => context.read<LoginBloc>().add(PasswordChanged(password)),
           obscureText: true,
           decoration: InputDecoration(
             errorText: state.error,
@@ -96,7 +96,7 @@ class _LoginButton extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                          onPressed: () => context.bloc<LoginBloc>().add(const PasswordSubmitted()),
+                          onPressed: () => context.read<LoginBloc>().add(const PasswordSubmitted()),
                         ),
                       ),
                     ],
@@ -115,7 +115,7 @@ class _LoginButton extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                          onPressed: () => context.bloc<LoginBloc>().add(const WipeData()),
+                          onPressed: () => context.read<LoginBloc>().add(const WipeData()),
                         ),
                       ),
                     ],

@@ -17,7 +17,8 @@ class NoteDetailsForm extends StatelessWidget {
   }
 
   Widget _buildCurrentSales(BuildContext buildContext) {
-    return BlocBuilder<NoteDetailsBloc, NoteDetailsState>(builder: (context, state) {
+    return BlocBuilder<NoteDetailsBloc, NoteDetailsState>(
+        builder: (context, state) {
       if (state is NoteDetailsState_Loaded) {
         return _NoteDetailsView(buildContext, state.note);
       } else if (state is NoteDetailsState_Loading) {
@@ -26,6 +27,10 @@ class NoteDetailsForm extends StatelessWidget {
         );
       } else if (state is NoteDetailsState_NotLoaded) {
         context.watch<NoteDetailsBloc>().add(NoteDetailsEvent_Load(nodeId));
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      } else {
         return const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         );
@@ -42,7 +47,9 @@ class NoteDetailsForm extends StatelessWidget {
               initialValue: note.name,
               maxLines: 1,
               key: const Key('note_name_input'),
-              onChanged: (name) => buildContext.bloc<NoteDetailsBloc>().add(NoteDetailsEvent_NameChanged(name, note)),
+              onChanged: (name) => buildContext
+                  .read<NoteDetailsBloc>()
+                  .add(NoteDetailsEvent_NameChanged(name, note)),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -74,8 +81,9 @@ class NoteDetailsForm extends StatelessWidget {
                 maxLines: 40,
                 keyboardType: TextInputType.multiline,
                 key: const Key('note_name_input'),
-                onChanged: (content) =>
-                    buildContext.bloc<NoteDetailsBloc>().add(NoteDetailsEvent_ContentChanged(content, note)),
+                onChanged: (content) => buildContext
+                    .read<NoteDetailsBloc>()
+                    .add(NoteDetailsEvent_ContentChanged(content, note)),
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -90,11 +98,13 @@ class NoteDetailsForm extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 2.0),
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black, width: 4.0),
+                    borderSide:
+                        const BorderSide(color: Colors.black, width: 4.0),
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
